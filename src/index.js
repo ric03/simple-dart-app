@@ -1,3 +1,4 @@
+import { FluentProvider, webDarkTheme } from '@fluentui/react-components';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -6,9 +7,12 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // StrictMode is currently not supported by FluentUI
+  // <React.StrictMode>
+  <FluentProvider theme={webDarkTheme}>
     <App />
-  </React.StrictMode>
+  </FluentProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
