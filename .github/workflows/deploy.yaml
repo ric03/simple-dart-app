@@ -16,6 +16,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build app
+        # To prevent out-of-memory errors during build:
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
         run: npm run build
 
       - name: Deploy to GitHub Pages
