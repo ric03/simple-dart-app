@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.5c4291f7.css","mappings":"AAAA,KACE,QACF,CAEA,oBACE,YACF","sources":["index.css"],"sourcesContent":["body {\n  margin: 0;\n}\n\n.fui-FluentProvider {\n  height: 100vh;\n}\n"],"names":[],"sourceRoot":""}
