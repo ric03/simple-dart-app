@@ -2,14 +2,14 @@ import { Button, makeStyles, Text, tokens } from '@fluentui/react-components';
 import { useState } from 'react';
 import './App.css';
 
-const useOverrides = makeStyles({
+const useColorOverrides = makeStyles({
   1: { backgroundColor: tokens.colorPaletteCornflowerBackground2 },
   2: { backgroundColor: tokens.colorPaletteLavenderBackground2 },
   3: { backgroundColor: tokens.colorPaletteGrapeBackground2 },
 });
 
 function MultiplierButtons(props) {
-  const colorOverrides = useOverrides();
+  const colorOverrides = useColorOverrides();
 
   return (
     <div>
@@ -40,7 +40,7 @@ function MultiplierButtons(props) {
 }
 
 function InputButtons() {
-  const colorOverrides = useOverrides();
+  const colorOverrides = useColorOverrides();
   const [multiplier, setMultiplier] = useState(1);
 
   const numberArray = Array.from({ length: 20 }, (v, k) => k + 1);
