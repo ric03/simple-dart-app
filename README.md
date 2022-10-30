@@ -1,3 +1,9 @@
+# Simple Dart App
+
+This is a simple project to play with React (JS).
+
+The app is deployed at https://ric03.github.io/simple-dart-app/
+
 # Development
 
 This app uses Microsoft's [Fluent UI](https://react.fluentui.dev)

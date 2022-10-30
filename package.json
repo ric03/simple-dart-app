@@ -1,6 +1,7 @@
 {
   "name": "simple-dart-app",
   "version": "0.1.0",
+  "homepage": "https://ric03.github.io/simple-dart-app",
   "private": true,
   "dependencies": {
     "@fluentui/react-components": "^9.6.1",
