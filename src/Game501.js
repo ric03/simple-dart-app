@@ -56,7 +56,7 @@ function SpecialButtons({ addValueWithMultiplier }) {
   );
 }
 
-function MultiplierButtons({ multiplier, setMultiplier }) {
+function MultiplierButtons({ setMultiplier }) {
   const colorOverrides = useColorOverrides();
 
   return (
@@ -82,7 +82,6 @@ function MultiplierButtons({ multiplier, setMultiplier }) {
       >
         Triple
       </Button>
-      <Text>The current multiplier is {multiplier}</Text>
     </div>
   );
 }
@@ -124,6 +123,12 @@ function throwsReducer(draft, action) {
         });
       }
       break;
+    case 'updateValueWithMultiplier':
+      draft[action.updateIdx] = {
+        value: action.value,
+        multiplier: action.multiplier,
+      };
+      break;
     case 'reset':
       return [];
     default:
@@ -131,7 +136,13 @@ function throwsReducer(draft, action) {
   }
 }
 
-function ThrowOutput({ item }) {
+function ThrowOutput({
+  item,
+  idx,
+  updateIdx,
+  initUpdateThrow,
+  endUpdateThrow,
+}) {
   const { value, multiplier } = item;
   if (isNaN(value) || isNaN(multiplier)) {
     console.error(
@@ -143,43 +154,53 @@ function ThrowOutput({ item }) {
 
   const computedValue = value * multiplier;
 
+  function handleEdit() {
+    initUpdateThrow(idx);
+  }
+
+  function handleSave() {
+    endUpdateThrow();
+  }
+
+  function isEditMode() {
+    return updateIdx === idx;
+  }
+
   return (
     <div>
-      <Text>{computedValue}</Text>
-      <Text size={100}>
+      <Text weight={isEditMode() ? 'semibold' : 'regular'}>
+        {computedValue}
+      </Text>
+      <Text size={100} weight={isEditMode() ? 'semibold' : 'regular'}>
         ={value} x{multiplier}
       </Text>
+      {!isEditMode() ? (
+        <Button size="small" onClick={() => handleEdit()}>
+          Edit
+        </Button>
+      ) : (
+        <Button appearance="primary" size="small" onClick={() => handleSave()}>
+          Save
+        </Button>
+      )}
     </div>
   );
 }
 
-function InputButtons({ addThrows }) {
+function InputButtons({ addInput }) {
   const [multiplier, setMultiplier] = useState(1);
-  const [throws, dispatch] = useImmerReducer(throwsReducer, []);
 
   /**
    * the multiplier is provided by the MultiplierButtons as a state (hook)
    * @param value
    */
   function handleValueWithImplicitMultiplier(value) {
-    dispatch({
-      type: 'addValueWithMultiplier',
-      value,
-      multiplier,
-    });
+    addInput(value, multiplier);
+    setMultiplier(1);
   }
 
   function handleValueWithMultiplier(value, multiplier) {
-    dispatch({
-      type: 'addValueWithMultiplier',
-      value,
-      multiplier,
-    });
-  }
-
-  function handleSubmit() {
-    addThrows(throws);
-    dispatch({ type: 'reset' });
+    addInput(value, multiplier);
     setMultiplier(1);
   }
 
@@ -189,20 +210,59 @@ function InputButtons({ addThrows }) {
 
       <SpecialButtons addValueWithMultiplier={handleValueWithMultiplier} />
 
-      <MultiplierButtons
-        multiplier={multiplier}
-        setMultiplier={setMultiplier}
-      />
+      <MultiplierButtons setMultiplier={setMultiplier} />
 
       <TwentyButtons
         multiplier={multiplier}
         addValue={handleValueWithImplicitMultiplier}
       />
+    </div>
+  );
+}
 
+function ThrowInput({ submitThrows }) {
+  const [throws, dispatch] = useImmerReducer(throwsReducer, []);
+  const [updateIdx, setUpdateIdx] = useState(null);
+
+  function handleSubmit() {
+    submitThrows(throws);
+    dispatch({ type: 'reset' });
+  }
+
+  function handleInput(value, multiplier) {
+    if (updateIdx !== null) {
+      dispatch({
+        type: 'updateValueWithMultiplier',
+        updateIdx,
+        value,
+        multiplier,
+      });
+    } else {
+      dispatch({ type: 'addValueWithMultiplier', value, multiplier });
+    }
+  }
+
+  function handleInitUpdateThrow(idx) {
+    setUpdateIdx(idx);
+  }
+
+  function handleEndUpdateThrow() {
+    setUpdateIdx(null);
+  }
+
+  return (
+    <div>
+      <InputButtons addInput={handleInput} />
       {throws.map((item, idx) => (
-        <ThrowOutput item={item} key={idx} />
+        <ThrowOutput
+          item={item}
+          key={idx}
+          idx={idx}
+          updateIdx={updateIdx}
+          initUpdateThrow={handleInitUpdateThrow}
+          endUpdateThrow={handleEndUpdateThrow}
+        />
       ))}
-
       <Button
         disabled={throws.length !== 3}
         onClick={() => {
@@ -283,8 +343,8 @@ export function Game501() {
 
   return (
     <div>
-      <Title3>Dart Board - 501</Title3>
-      <InputButtons addThrows={handleInput} />
+      <Title3>Dart 501</Title3>
+      <ThrowInput submitThrows={handleInput} />
       <ScoreOutput state={state} />
     </div>
   );
