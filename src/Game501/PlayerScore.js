@@ -47,7 +47,7 @@ function PlayerScore({ player, updatePlayerName }) {
   );
 }
 
-export function ScoreOutput({state, updatePlayerName}) {
+export function ScoreOutput({ state, updatePlayerName }) {
   return (
     <div>
       {state.map((player, idx) => (
