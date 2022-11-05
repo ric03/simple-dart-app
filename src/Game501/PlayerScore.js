@@ -73,10 +73,10 @@ function PlayerScore({ player, updatePlayerName, removePlayer }) {
 export function ScoreOutput({ state, updatePlayerName, removePlayer }) {
   return (
     <div>
-      {state.map((player, idx) => (
+      {state.map((player) => (
         <PlayerScore
+          key={player.id}
           player={player}
-          key={idx}
           updatePlayerName={updatePlayerName}
           removePlayer={removePlayer}
         />
