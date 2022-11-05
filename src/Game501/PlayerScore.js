@@ -1,9 +1,21 @@
-import { Body1, Button, Input, Text } from '@fluentui/react-components';
+import {
+  Body1,
+  Button,
+  Input,
+  makeStyles,
+  Text,
+  tokens,
+} from '@fluentui/react-components';
 import { Card, CardHeader } from '@fluentui/react-components/unstable';
 import { useState } from 'react';
 import { calculateRemainingPoints } from './util/calculateRemainingPoints';
 
-function PlayerScore({ player, updatePlayerName }) {
+const useColorOverrides = makeStyles({
+  warn: { backgroundColor: tokens.colorPaletteRedBackground2 },
+});
+
+function PlayerScore({ player, updatePlayerName, removePlayer }) {
+  const colorOverrides = useColorOverrides();
   const [isEditMode, setEditMode] = useState(false);
   const [newName, setName] = useState(player.name);
 
@@ -14,6 +26,10 @@ function PlayerScore({ player, updatePlayerName }) {
   function handleSave() {
     updatePlayerName(player.id, newName);
     setEditMode(false);
+  }
+
+  function handleRemovePlayer() {
+    removePlayer(player.id);
   }
 
   return (
@@ -38,6 +54,13 @@ function PlayerScore({ player, updatePlayerName }) {
               <Button appearance="primary" onClick={() => handleSave()}>
                 Save
               </Button>
+              <Button
+                appearance="primary"
+                className={colorOverrides.warn}
+                onClick={() => handleRemovePlayer()}
+              >
+                Remove Player
+              </Button>
             </Body1>
           )
         }
@@ -47,7 +70,7 @@ function PlayerScore({ player, updatePlayerName }) {
   );
 }
 
-export function ScoreOutput({ state, updatePlayerName }) {
+export function ScoreOutput({ state, updatePlayerName, removePlayer }) {
   return (
     <div>
       {state.map((player, idx) => (
@@ -55,6 +78,7 @@ export function ScoreOutput({ state, updatePlayerName }) {
           player={player}
           key={idx}
           updatePlayerName={updatePlayerName}
+          removePlayer={removePlayer}
         />
       ))}
     </div>
