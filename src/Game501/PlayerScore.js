@@ -7,7 +7,8 @@ import {
   tokens,
 } from '@fluentui/react-components';
 import { Card, CardHeader } from '@fluentui/react-components/unstable';
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
+import FlipMove from 'react-flip-move';
 import { calculateRemainingPoints } from './util/calculateRemainingPoints';
 
 const useColorOverrides = makeStyles({
@@ -70,17 +71,38 @@ function PlayerScore({ player, updatePlayerName, removePlayer }) {
   );
 }
 
+/**
+ * forward-ref is required by react-flip-move
+ * see https://github.com/joshwcomeau/react-flip-move#usage-with-functional-components
+ */
+const PlayerScoreRefWrapper = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <PlayerScore
+      player={props.player}
+      removePlayer={props.removePlayer}
+      updatePlayerName={props.updatePlayerName}
+    ></PlayerScore>
+  </div>
+));
+
 export function ScoreOutput({ state, updatePlayerName, removePlayer }) {
   return (
     <div>
-      {state.map((player) => (
-        <PlayerScore
-          key={player.id}
-          player={player}
-          updatePlayerName={updatePlayerName}
-          removePlayer={removePlayer}
-        />
-      ))}
+      <FlipMove
+        easing="ease"
+        duration={700}
+        staggerDurationBy={15}
+        staggerDelayBy={20}
+      >
+        {state.map((player) => (
+          <PlayerScoreRefWrapper
+            key={player.id}
+            player={player}
+            updatePlayerName={updatePlayerName}
+            removePlayer={removePlayer}
+          />
+        ))}
+      </FlipMove>
     </div>
   );
 }
