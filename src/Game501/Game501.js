@@ -10,6 +10,19 @@ function game501Reducer(draft, action) {
     return !draft || draft.length === 0;
   }
 
+  function getHighestId(draft) {
+    if (isStateEmpty(draft)) return -1;
+    const ids = draft.map((p) => p.id);
+    ids.sort((a, b) => b - a); // sort desc (highest to lowest)
+    return ids[0];
+  }
+
+  function createNewPlayer(draft, name) {
+    const currentlyHighestId = getHighestId(draft);
+    const nextId = currentlyHighestId + 1;
+    return { id: nextId, name, throws: [] };
+  }
+
   switch (action.type) {
     case 'addThrowsToCurrentPlayer': {
       if (isStateEmpty(draft)) return draft;
@@ -27,7 +40,7 @@ function game501Reducer(draft, action) {
     }
     case 'addPlayer': {
       const { name } = action;
-      const newPlayer = { id: -1, name, throws: [] };
+      const newPlayer = createNewPlayer(draft, name);
       draft.push(newPlayer);
       return draft;
     }
