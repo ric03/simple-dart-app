@@ -6,7 +6,11 @@ The app is deployed at https://ric03.github.io/simple-dart-app/
 
 # Development
 
-This app uses Microsoft's [Fluent UI](https://react.fluentui.dev)
+This app uses
+
+- [create-react-app](https://create-react-app.dev/)
+- [Microsoft's Fluent UI](https://react.fluentui.dev) for UI Components
+- [react-flip-move](https://github.com/joshwcomeau/react-flip-move) for List Animations
 
 # Getting Started with Create React App
 
