@@ -85,7 +85,7 @@ const PlayerScoreRefWrapper = forwardRef((props, ref) => (
   </div>
 ));
 
-export function ScoreOutput({ state, updatePlayerName, removePlayer }) {
+export function ScoreOutput({ players, updatePlayerName, removePlayer }) {
   return (
     <div>
       <FlipMove
@@ -94,7 +94,7 @@ export function ScoreOutput({ state, updatePlayerName, removePlayer }) {
         staggerDurationBy={15}
         staggerDelayBy={20}
       >
-        {state.map((player) => (
+        {players.map((player) => (
           <PlayerScoreRefWrapper
             key={player.id}
             player={player}
