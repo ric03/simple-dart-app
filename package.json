@@ -4,7 +4,7 @@
   "homepage": "https://ric03.github.io/simple-dart-app",
   "private": true,
   "dependencies": {
-    "@fluentui/react-components": "^9.6.1",
+    "@fluentui/react-components": "^9.7.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
