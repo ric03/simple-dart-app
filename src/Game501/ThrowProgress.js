@@ -22,6 +22,12 @@ function throwsReducer(draft, action) {
         multiplier: action.multiplier,
       };
       break;
+    case 'removeLastThrow': {
+      if(draft.length > 0) {
+        draft.pop()
+      }
+      break;
+    }
     case 'reset':
       return [];
     default:
@@ -80,6 +86,7 @@ function ThrowOutput({
   );
 }
 
+
 export function ThrowInput({ submitThrows }) {
   const [throws, dispatch] = useImmerReducer(throwsReducer, []);
   const [updateIdx, setUpdateIdx] = useState(null);
@@ -106,6 +113,11 @@ export function ThrowInput({ submitThrows }) {
     setUpdateIdx(idx);
   }
 
+
+  function handleRemoveLastThrow() {
+    dispatch({type: 'removeLastThrow'})
+  }
+
   function handleEndUpdateThrow() {
     setUpdateIdx(null);
   }
@@ -123,6 +135,7 @@ export function ThrowInput({ submitThrows }) {
           endUpdateThrow={handleEndUpdateThrow}
         />
       ))}
+      {throws.length > 0 && <Button onClick={() => handleRemoveLastThrow()}>Revert Last Throw</Button>}
       <Button
         disabled={throws.length !== 3}
         onClick={() => {
