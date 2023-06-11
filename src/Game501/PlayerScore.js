@@ -1,12 +1,14 @@
 import {
   Body1,
   Button,
+  Card,
+  CardHeader,
   Input,
   makeStyles,
   Text,
   tokens,
 } from '@fluentui/react-components';
-import { Card, CardHeader } from '@fluentui/react-components/unstable';
+// import { Card, CardHeader } from '@fluentui/react-components/unstable';
 import { forwardRef, useState } from 'react';
 import FlipMove from 'react-flip-move';
 import { calculateRemainingPoints } from './util/calculateRemainingPoints';

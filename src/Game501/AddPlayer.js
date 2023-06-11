@@ -1,8 +1,8 @@
-import { Button } from '@fluentui/react-components';
-import { InputField } from '@fluentui/react-components/unstable';
+import { Button, Input, Label, useId } from '@fluentui/react-components';
 import { useState } from 'react';
 
 export function AddPlayer({ addPlayer }) {
+  const nameInputId = useId("input-name")
   const [name, setName] = useState('');
 
   function handleAddPlayer() {
@@ -15,8 +15,9 @@ export function AddPlayer({ addPlayer }) {
   return (
     <div>
       <p>Would you like to add a player?</p>
-      <InputField
-        label="Name"
+      <Label htmlFor={nameInputId}>Name</Label>
+      <Input
+        id={nameInputId}
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
