@@ -8,11 +8,11 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // StrictMode is currently not supported by FluentUI
-  // <React.StrictMode>
-  <FluentProvider theme={webDarkTheme}>
-    <App />
-  </FluentProvider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <FluentProvider theme={webDarkTheme}>
+      <App />
+    </FluentProvider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
