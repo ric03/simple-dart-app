@@ -1,8 +1,12 @@
 import { Button, Input, Label, useId } from '@fluentui/react-components';
 import { useState } from 'react';
+import { useGameState } from './state/game.state.ts';
 
-export function AddPlayer({ addPlayer }) {
-  const nameInputId = useId("input-name")
+export function AddPlayer() {
+
+  const { addPlayer } = useGameState();
+
+  const nameInputId = useId('input-name');
   const [name, setName] = useState('');
 
   function handleAddPlayer() {

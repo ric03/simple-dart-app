@@ -1,25 +1,26 @@
-import {
-  Body1,
-  Button,
-  Card,
-  CardHeader,
-  Input,
-  makeStyles,
-  Text,
-  tokens,
-} from '@fluentui/react-components';
+import { Body1, Button, Card, CardHeader, Input, makeStyles, Text, tokens } from '@fluentui/react-components';
 import { useState } from 'react';
 import { calculateRemainingPoints } from './util/calculateRemainingPoints';
 import { Flipped, Flipper } from 'react-flip-toolkit';
+import { Player } from './types/player.ts';
+import { useGameState } from './state/game.state.ts';
 
 const useColorOverrides = makeStyles({
-  warn: { backgroundColor: tokens.colorPaletteRedBackground2 },
+  warn: { backgroundColor: tokens.colorPaletteRedBackground2 }
 });
 
-function PlayerScore({ player, updatePlayerName, removePlayer }) {
-  const colorOverrides = useColorOverrides();
+interface PlayerScoreProps {
+  player: Player;
+}
+
+function PlayerScore({ player }: PlayerScoreProps) {
+
   const [isEditMode, setEditMode] = useState(false);
   const [newName, setName] = useState(player.name);
+
+  const { removePlayer, updatePlayerName } = useGameState();
+
+  const colorOverrides = useColorOverrides();
 
   function handleEdit() {
     setEditMode(true);
@@ -38,30 +39,30 @@ function PlayerScore({ player, updatePlayerName, removePlayer }) {
     <Card>
       <CardHeader
         header={
-          !isEditMode ? (
-            <Body1>
-              {player.name}{' '}
-              <Button size="small" onClick={() => handleEdit()}>
-                Edit
-              </Button>
-            </Body1>
-          ) : (
+          isEditMode ? (
             <Body1>
               <Input
-                id="name"
+                id='name'
                 defaultValue={player.name}
                 onChange={(e) => setName(e.target.value)}
                 autoFocus
               />
-              <Button appearance="primary" onClick={() => handleSave()}>
+              <Button appearance='primary' onClick={() => handleSave()}>
                 Save
               </Button>
               <Button
-                appearance="primary"
+                appearance='primary'
                 className={colorOverrides.warn}
                 onClick={() => handleRemovePlayer()}
               >
                 Remove Player
+              </Button>
+            </Body1>
+          ) : (
+            <Body1>
+              {player.name}{' '}
+              <Button size='small' onClick={() => handleEdit()}>
+                Edit
               </Button>
             </Body1>
           )
@@ -72,7 +73,10 @@ function PlayerScore({ player, updatePlayerName, removePlayer }) {
   );
 }
 
-export function ScoreOutput({ players, updatePlayerName, removePlayer }) {
+export function ScoreOutput() {
+
+  const { players } = useGameState();
+
   /**
    * Important Notes:
    * - flipKey prop changes every time animations should happen.
@@ -86,11 +90,7 @@ export function ScoreOutput({ players, updatePlayerName, removePlayer }) {
         {players.map((player) => (
           <Flipped key={player.id} flipId={player.id}>
             <div>
-              <PlayerScore
-                player={player}
-                updatePlayerName={updatePlayerName}
-                removePlayer={removePlayer}
-              />
+              <PlayerScore player={player} />
             </div>
           </Flipped>
         ))}

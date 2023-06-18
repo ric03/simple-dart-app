@@ -1,0 +1,1 @@
+export type Multiplier = 1 | 2 | 3
