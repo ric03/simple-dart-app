@@ -70,6 +70,7 @@ export const useGameState = create(
         // win => sort players by points, end game
         setState((state) => {
           sortPlayersByRemainingPointsAsc(state.players);
+          state.isGameOver = true;
         });
       } else {
         setState((state) => {

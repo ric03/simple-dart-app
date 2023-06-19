@@ -9,16 +9,16 @@ interface ThrowOutputProps {
   item: Throw;
   idx: number;
   updateIdx: number | undefined;
-  initUpdateThrow: (idx: number) => void;
-  endUpdateThrow: () => void;
+  initUpdate: (idx: number) => void;
+  endUpdate: () => void;
 }
 
 function ThrowOutput({
                        item,
                        idx,
                        updateIdx,
-                       initUpdateThrow,
-                       endUpdateThrow
+                       initUpdate,
+                       endUpdate
                      }: ThrowOutputProps) {
   const { value, multiplier } = item;
   if (isNaN(value) || isNaN(multiplier)) {
@@ -32,11 +32,11 @@ function ThrowOutput({
   const computedValue = value * multiplier;
 
   function handleEdit() {
-    initUpdateThrow(idx);
+    initUpdate(idx);
   }
 
   function handleSave() {
-    endUpdateThrow();
+    endUpdate();
   }
 
   function isEditMode() {
@@ -104,8 +104,8 @@ export function ThrowInput() {
           key={idx}
           idx={idx}
           updateIdx={updateIdx}
-          initUpdateThrow={handleStartUpdateThrow}
-          endUpdateThrow={handleEndUpdateThrow}
+          initUpdate={handleStartUpdateThrow}
+          endUpdate={handleEndUpdateThrow}
         />
       ))}
       {currentThrows.length > 0 && <Button onClick={() => handleRemoveLastThrow()}>Revert Last Throw</Button>}
