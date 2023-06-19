@@ -20,15 +20,8 @@ function ThrowOutput({
                        initUpdate,
                        endUpdate
                      }: ThrowOutputProps) {
-  const { value, multiplier } = item;
-  if (isNaN(value) || isNaN(multiplier)) {
-    console.error(
-      'received invalid data, either value or multiplier are NaN',
-      item
-    );
-    return;
-  }
 
+  const {value, multiplier} = item;
   const computedValue = value * multiplier;
 
   function handleEdit() {
@@ -92,6 +85,7 @@ export function ThrowInput() {
   }
 
   function handleSubmit() {
+    setUpdateIdx(undefined);
     submitThrows();
   }
 
