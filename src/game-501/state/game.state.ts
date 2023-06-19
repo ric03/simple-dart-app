@@ -53,6 +53,8 @@ export const useGameState = create(
     addThrow: (newThrow: Throw) => {
       const currentPlayer = getCurrentPlayer(getState().players);
       const currentThrows = getState().currentThrows;
+      if(currentThrows.length >= 3 ) return;
+
       const intermediaryPoints = calculateIntermediaryPoints(currentPlayer.throws, [...currentThrows, newThrow]);
       if (intermediaryPoints < 0) {
         // overshot => submit and switch player
