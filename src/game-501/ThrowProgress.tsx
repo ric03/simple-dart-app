@@ -1,9 +1,11 @@
-import { Button, Text } from '@fluentui/react-components';
+import { Button, Text, Tooltip } from '@fluentui/react-components';
+import { EditRegular, SaveRegular } from '@fluentui/react-icons';
 import { useState } from 'react';
 import { Throw } from './types/throw.ts';
 import { Multiplier } from './types/multiplier.ts';
 import { InputButtons } from './InputButtons.tsx';
 import { useGameState } from './state/game.state.ts';
+import { Tile } from './Tile.tsx';
 
 interface ThrowOutputProps {
   item: Throw;
@@ -14,14 +16,13 @@ interface ThrowOutputProps {
 }
 
 function ThrowOutput({
-                       item,
-                       idx,
-                       updateIdx,
-                       initUpdate,
-                       endUpdate
-                     }: ThrowOutputProps) {
-
-  const {value, multiplier} = item;
+  item,
+  idx,
+  updateIdx,
+  initUpdate,
+  endUpdate,
+}: ThrowOutputProps) {
+  const { value, multiplier } = item;
   const computedValue = value * multiplier;
 
   function handleEdit() {
@@ -45,11 +46,21 @@ function ThrowOutput({
         ={value} x{multiplier}
       </Text>
       {!isEditMode() ? (
-        <Button size='small' onClick={() => handleEdit()}>
-          Edit
-        </Button>
+        <Tooltip content="Edit" relationship="label">
+          <Button
+            size="small"
+            appearance="transparent"
+            onClick={() => handleEdit()}
+            icon={<EditRegular />}
+          />
+        </Tooltip>
       ) : (
-        <Button appearance='primary' size='small' onClick={() => handleSave()}>
+        <Button
+          size="small"
+          appearance="primary"
+          onClick={() => handleSave()}
+          icon={<SaveRegular />}
+        >
           Save
         </Button>
       )}
@@ -57,10 +68,14 @@ function ThrowOutput({
   );
 }
 
-
 export function ThrowInput() {
-
-  const { addThrow, updateThrowByIdx, removeLastThrow, submitThrows, currentThrows } = useGameState();
+  const {
+    addThrow,
+    updateThrowByIdx,
+    removeLastThrow,
+    submitThrows,
+    currentThrows,
+  } = useGameState();
 
   const [updateIdx, setUpdateIdx] = useState<number | undefined>(undefined);
 
@@ -90,27 +105,35 @@ export function ThrowInput() {
   }
 
   return (
-    <div>
-      <InputButtons addInput={handleInput} />
-      {currentThrows.map((item: Throw, idx: number) => (
-        <ThrowOutput
-          item={item}
-          key={idx}
-          idx={idx}
-          updateIdx={updateIdx}
-          initUpdate={handleStartUpdateThrow}
-          endUpdate={handleEndUpdateThrow}
-        />
-      ))}
-      {currentThrows.length > 0 && <Button onClick={() => handleRemoveLastThrow()}>Revert Last Throw</Button>}
-      <Button
-        disabled={currentThrows.length !== 3}
-        onClick={() => {
-          handleSubmit();
-        }}
-      >
-        Submit
-      </Button>
+    <div className="mb-3">
+      <Tile>
+        <InputButtons addInput={handleInput} />
+      </Tile>
+      <Tile>
+        {currentThrows.map((item: Throw, idx: number) => (
+          <ThrowOutput
+            item={item}
+            key={idx}
+            idx={idx}
+            updateIdx={updateIdx}
+            initUpdate={handleStartUpdateThrow}
+            endUpdate={handleEndUpdateThrow}
+          />
+        ))}
+        {currentThrows.length > 0 && (
+          <Button onClick={() => handleRemoveLastThrow()}>
+            Revert Last Throw
+          </Button>
+        )}
+        <Button
+          disabled={currentThrows.length !== 3}
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
+          Submit
+        </Button>
+      </Tile>
     </div>
   );
 }

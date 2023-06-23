@@ -1,4 +1,4 @@
-import { Title3 } from '@fluentui/react-components';
+import { Title1 } from '@fluentui/react-components';
 import { AddPlayer } from './AddPlayer.js';
 import { ScoreOutput } from './PlayerScore';
 import { ThrowInput } from './ThrowProgress';
@@ -9,8 +9,8 @@ export function Game501() {
   const { isGameOver } = useGameState();
 
   return (
-    <div>
-      <Title3>Dart 501</Title3>
+    <div className="container">
+      <Title1>Dart 501</Title1>
       {isGameOver ? <Winner /> : <ThrowInput />}
       <ScoreOutput />
       {!isGameOver && <AddPlayer />}

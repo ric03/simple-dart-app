@@ -8,7 +8,7 @@ const useColorOverrides = makeStyles({
   3: { backgroundColor: tokens.colorPaletteGrapeBackground2 },
   bull: { backgroundColor: tokens.colorPalettePinkBackground2 },
   bullseye: { backgroundColor: tokens.colorPaletteMagentaBackground2 },
-  miss: { backgroundColor: tokens.colorPaletteBeigeBackground2 }
+  miss: { backgroundColor: tokens.colorPaletteBeigeBackground2 },
 });
 
 interface SpecialButtonsProps {
@@ -19,31 +19,37 @@ function SpecialButtons({ addValueWithMultiplier }: SpecialButtonsProps) {
   const colorOverrides = useColorOverrides();
 
   return (
-    <div>
-      <Button
-        shape='circular'
-        appearance='primary'
-        className={colorOverrides.miss}
-        onClick={() => addValueWithMultiplier(0, 1)}
-      >
-        MISS
-      </Button>
-      <Button
-        shape='circular'
-        appearance='primary'
-        className={colorOverrides.bull}
-        onClick={() => addValueWithMultiplier(25, 1)}
-      >
-        BULL
-      </Button>
-      <Button
-        shape='circular'
-        appearance='primary'
-        className={colorOverrides.bullseye}
-        onClick={() => addValueWithMultiplier(25, 2)}
-      >
-        BULLSEYE
-      </Button>
+    <div className="w-100 d-flex justify-content-center">
+      <div>
+        <Button
+          shape="circular"
+          appearance="primary"
+          className={colorOverrides.miss}
+          onClick={() => addValueWithMultiplier(0, 1)}
+        >
+          MISS
+        </Button>
+      </div>
+      <div className="mx-3">
+        <Button
+          shape="circular"
+          appearance="primary"
+          className={colorOverrides.bull}
+          onClick={() => addValueWithMultiplier(25, 1)}
+        >
+          BULL
+        </Button>
+      </div>
+      <div>
+        <Button
+          shape="circular"
+          appearance="primary"
+          className={colorOverrides.bullseye}
+          onClick={() => addValueWithMultiplier(25, 2)}
+        >
+          BULLSEYE
+        </Button>
+      </div>
     </div>
   );
 }
@@ -56,23 +62,25 @@ function MultiplierButtons({ setMultiplier }: MultiplierButtonsProps) {
   const colorOverrides = useColorOverrides();
 
   return (
-    <div>
+    <div className="w-100 d-flex justify-content-center">
       <Button
-        appearance='primary'
+        appearance="primary"
         className={colorOverrides[1]}
         onClick={() => setMultiplier(1)}
       >
         Single
       </Button>
+      <div className="mx-3">
+        <Button
+          appearance="primary"
+          className={colorOverrides[2]}
+          onClick={() => setMultiplier(2)}
+        >
+          Double
+        </Button>
+      </div>
       <Button
-        appearance='primary'
-        className={colorOverrides[2]}
-        onClick={() => setMultiplier(2)}
-      >
-        Double
-      </Button>
-      <Button
-        appearance='primary'
+        appearance="primary"
         className={colorOverrides[3]}
         onClick={() => setMultiplier(3)}
       >
@@ -97,17 +105,18 @@ function TwentyButtons({ multiplier, addValue }: TwentyButtonsProps) {
   const numberArray = Array.from({ length: 20 }, (_, idx) => idx + 1);
 
   return (
-    <div>
+    <div className="w-100 d-flex flex-wrap justify-content-center">
       {numberArray.map((number, idx) => (
-        <Button
-          className={colorOverrides[multiplier]}
-          shape='circular'
-          appearance='primary'
-          key={idx}
-          onClick={() => addValue(number)}
-        >
-          {number}
-        </Button>
+        <div className="m-1" key={idx}>
+          <Button
+            className={colorOverrides[multiplier]}
+            shape="circular"
+            appearance="primary"
+            onClick={() => addValue(number)}
+          >
+            {number}
+          </Button>
+        </div>
       ))}
     </div>
   );
@@ -135,17 +144,19 @@ export function InputButtons({ addInput }: InputButtonsProps) {
   }
 
   return (
-    <div>
-      <p>Input Buttons</p>
-
-      <SpecialButtons addValueWithMultiplier={handleValueWithMultiplier} />
-
-      <MultiplierButtons setMultiplier={setMultiplier} />
-
-      <TwentyButtons
-        multiplier={multiplier}
-        addValue={handleValueWithImplicitMultiplier}
-      />
-    </div>
+    <>
+      <div className="mb-4">
+        <SpecialButtons addValueWithMultiplier={handleValueWithMultiplier} />
+      </div>
+      <div className="mb-2">
+        <MultiplierButtons setMultiplier={setMultiplier} />
+      </div>
+      <div>
+        <TwentyButtons
+          multiplier={multiplier}
+          addValue={handleValueWithImplicitMultiplier}
+        />
+      </div>
+    </>
   );
 }

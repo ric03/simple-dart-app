@@ -1,12 +1,22 @@
-import { Body1, Button, Card, CardHeader, Input, makeStyles, Text, tokens } from '@fluentui/react-components';
+import {
+  Button,
+  Input,
+  makeStyles,
+  Text,
+  tokens,
+  Tooltip,
+} from '@fluentui/react-components';
 import { useState } from 'react';
 import { calculateRemainingPoints } from './util/calculateRemainingPoints';
 import { Flipped, Flipper } from 'react-flip-toolkit';
 import { Player } from './types/player.ts';
 import { useGameState } from './state/game.state.ts';
+import { EditRegular } from '@fluentui/react-icons/lib/fonts';
+import { DeleteRegular, SaveRegular } from '@fluentui/react-icons';
+import { Tile } from './Tile.tsx';
 
 const useColorOverrides = makeStyles({
-  warn: { backgroundColor: tokens.colorPaletteRedBackground2 }
+  warn: { backgroundColor: tokens.colorPaletteRedBackground2 },
 });
 
 interface PlayerScoreProps {
@@ -14,7 +24,6 @@ interface PlayerScoreProps {
 }
 
 function PlayerScore({ player }: PlayerScoreProps) {
-
   const [isEditMode, setEditMode] = useState(false);
   const [newName, setName] = useState(player.name);
 
@@ -36,45 +45,62 @@ function PlayerScore({ player }: PlayerScoreProps) {
   }
 
   return (
-    <Card>
-      <CardHeader
-        header={
-          isEditMode ? (
-            <Body1>
+    <Tile>
+      <div className="d-flex">
+        <div>
+          {isEditMode ? (
+            <form>
               <Input
-                id='name'
+                id="name"
                 defaultValue={player.name}
                 onChange={(e) => setName(e.target.value)}
                 autoFocus
               />
-              <Button appearance='primary' onClick={() => handleSave()}>
+              <Button
+                className="mx-2"
+                appearance="primary"
+                icon={<SaveRegular />}
+                type="button"
+                onClick={() => handleSave()}
+              >
                 Save
               </Button>
               <Button
-                appearance='primary'
+                appearance="secondary"
                 className={colorOverrides.warn}
+                icon={<DeleteRegular />}
                 onClick={() => handleRemovePlayer()}
               >
                 Remove Player
               </Button>
-            </Body1>
+            </form>
           ) : (
-            <Body1>
-              {player.name}{' '}
-              <Button size='small' onClick={() => handleEdit()}>
-                Edit
-              </Button>
-            </Body1>
-          )
-        }
-      />
-      <Text>Remaining Points: {calculateRemainingPoints(player.throws)}</Text>
-    </Card>
+            <div>
+              {player.name}
+              <span className="ms-1">
+                <Tooltip content="Edit" relationship="label">
+                  <Button
+                    size="small"
+                    appearance="transparent"
+                    onClick={() => handleEdit()}
+                    icon={<EditRegular />}
+                  />
+                </Tooltip>
+              </span>
+            </div>
+          )}
+        </div>
+        <div className="ms-auto">
+          <Tooltip content="Remaining Points" relationship="label">
+            <Text weight="bold">{calculateRemainingPoints(player.throws)}</Text>
+          </Tooltip>
+        </div>
+      </div>
+    </Tile>
   );
 }
 
 export function ScoreOutput() {
-
   const { players } = useGameState();
 
   /**
