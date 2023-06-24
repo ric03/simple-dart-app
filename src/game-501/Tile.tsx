@@ -5,5 +5,5 @@ type TileProps = {
 };
 
 export function Tile({ children }: TileProps) {
-  return <div className="rounded-3 bg-dark my-3 p-3">{children}</div>;
+  return <div className="rounded-3 bg-dark mt-3 p-3">{children}</div>;
 }
