@@ -10,7 +10,7 @@ export function Game501() {
 
   return (
     <div className="container">
-      <Title1>Dart 501</Title1>
+      <Title1 className="branded-title-gradient">Dart 501</Title1>
       {isGameOver ? <Winner /> : <ThrowInput />}
       <ScoreOutput />
       {!isGameOver && <AddPlayer />}

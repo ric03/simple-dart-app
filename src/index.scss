@@ -5,3 +5,10 @@
 @import 'node_modules/bootstrap/scss/bootstrap-grid';
 @import 'node_modules/bootstrap/scss/bootstrap-reboot';
 @import 'node_modules/bootstrap/scss/bootstrap-utilities';
+
+.branded-title-gradient {
+  background: #FFFFFF;
+  background: radial-gradient(ellipse farthest-corner at top left, #FFFFFF 55%, #FFCE8F 75%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
