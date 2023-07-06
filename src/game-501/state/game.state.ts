@@ -18,6 +18,7 @@ interface GameStateActions {
   addPlayer: (name: string) => void;
   updatePlayerName: (id: UUID, newName: string) => void;
   removePlayer: (id: UUID) => void;
+  getCurrentPlayer: () => Player;
   addThrow: (_throw: Throw) => void;
   updateThrowByIdx: (_throw: Throw, idx: number) => void;
   removeLastThrow: () => void;
@@ -69,7 +70,7 @@ export const useGameState = create(
       } else if (intermediaryPoints === 0) {
         // win => sort players by points, end game
         setState((state) => {
-          state.players[0].throws.push([...state.currentThrows, newThrow])
+          state.players[0].throws.push([...state.currentThrows, newThrow]);
           sortPlayersByRemainingPointsAsc(state.players);
           state.isGameOver = true;
         });
@@ -78,6 +79,10 @@ export const useGameState = create(
           state.currentThrows.push(newThrow);
         });
       }
+    },
+
+    getCurrentPlayer: () => {
+      return getCurrentPlayer(getState().players);
     },
 
     updateThrowByIdx: (_throw: Throw, idx: number) => {

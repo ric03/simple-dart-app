@@ -1,11 +1,4 @@
-import {
-  Button,
-  Input,
-  makeStyles,
-  Text,
-  tokens,
-  Tooltip,
-} from '@fluentui/react-components';
+import { Button, Input, makeStyles, Text, tokens, Tooltip } from '@fluentui/react-components';
 import { useState } from 'react';
 import { calculateRemainingPoints } from './util/calculateRemainingPoints';
 import { Flipped, Flipper } from 'react-flip-toolkit';
@@ -24,10 +17,11 @@ interface PlayerScoreProps {
 }
 
 function PlayerScore({ player }: PlayerScoreProps) {
+
   const [isEditMode, setEditMode] = useState(false);
   const [newName, setName] = useState(player.name);
 
-  const { removePlayer, updatePlayerName } = useGameState();
+  const { removePlayer, updatePlayerName, getCurrentPlayer } = useGameState();
 
   const colorOverrides = useColorOverrides();
 
@@ -45,7 +39,7 @@ function PlayerScore({ player }: PlayerScoreProps) {
   }
 
   return (
-    <Tile>
+    <Tile className={getCurrentPlayer().id === player.id ? 'border border-white' : ''}>
       <div className="d-flex">
         <div>
           {isEditMode ? (
