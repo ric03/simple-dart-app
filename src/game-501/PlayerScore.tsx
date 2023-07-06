@@ -39,7 +39,7 @@ function PlayerScore({ player }: PlayerScoreProps) {
   }
 
   return (
-    <Tile className={getCurrentPlayer().id === player.id ? 'border border-white' : ''}>
+    <Tile className={getCurrentPlayer().id === player.id ? 'border border-warning' : ''}>
       <div className="d-flex">
         <div>
           {isEditMode ? (
