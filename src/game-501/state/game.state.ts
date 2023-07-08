@@ -28,9 +28,19 @@ interface GameStateActions {
 
 export const useGameState = create(
   immer<GameState & GameStateActions>((setState, getState) => ({
-    players: [{ id: uuidv4(), name: 'Mike', throws: [] }],
+    /**
+     * start initial state
+     */
+    players: [
+      { id: uuidv4(), name: 'Coconut', throws: [] },
+      { id: uuidv4(), name: 'Pineapple', throws: [] },
+    ],
     currentThrows: [],
     isGameOver: false,
+    /**
+     * end initial state
+     */
+
     addPlayer: (name: string) => {
       const newPlayer: Player = { id: uuidv4(), name, throws: [] };
       setState((state) => {
