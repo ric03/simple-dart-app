@@ -111,7 +111,7 @@ export const useGameState = create(
   }))
 );
 
-export function getWinner(players: Player[]): Player {
+function getWinner(players: Player[]): Player {
   const playerWithZeroPoints = (player: Player) =>
     calculateRemainingPoints(player.throws) === 0;
 
