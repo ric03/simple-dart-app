@@ -77,6 +77,8 @@ export function ThrowInput() {
     currentThrows,
   } = useGameState();
 
+  const { getCurrentPlayer } = useGameState();
+
   const [updateIdx, setUpdateIdx] = useState<number | undefined>(undefined);
 
   function handleInput(value: number, multiplier: Multiplier) {
@@ -110,22 +112,32 @@ export function ThrowInput() {
         <InputButtons addInput={handleInput} />
       </Tile>
       <Tile>
-        {currentThrows.map((item: Throw, idx: number) => (
-          <ThrowOutput
-            item={item}
-            key={idx}
-            idx={idx}
-            updateIdx={updateIdx}
-            initUpdate={handleStartUpdateThrow}
-            endUpdate={handleEndUpdateThrow}
-          />
-        ))}
+        <div className="mb-3">
+          <div className="my-1">
+            <Text>
+              It's your turn{' '}
+              <span className="fw-bold">{getCurrentPlayer().name}</span>.{' '}
+              {currentThrows.length < 3 && 'Please select a number.'}
+            </Text>
+          </div>
+          {currentThrows.map((item: Throw, idx: number) => (
+            <ThrowOutput
+              item={item}
+              key={idx}
+              idx={idx}
+              updateIdx={updateIdx}
+              initUpdate={handleStartUpdateThrow}
+              endUpdate={handleEndUpdateThrow}
+            />
+          ))}
+        </div>
         {currentThrows.length > 0 && (
-          <Button onClick={() => handleRemoveLastThrow()}>
+          <Button className="me-3" onClick={() => handleRemoveLastThrow()}>
             Revert Last Throw
           </Button>
         )}
         <Button
+          appearance="primary"
           disabled={currentThrows.length !== 3}
           onClick={() => {
             handleSubmit();
