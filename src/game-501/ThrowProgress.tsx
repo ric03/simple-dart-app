@@ -75,6 +75,7 @@ export function ThrowInput() {
     removeLastThrow,
     submitThrows,
     currentThrows,
+    getSumOfCurrentThrows,
   } = useGameState();
 
   const { getCurrentPlayer } = useGameState();
@@ -98,6 +99,7 @@ export function ThrowInput() {
   }
 
   function handleRemoveLastThrow() {
+    setUpdateIdx(undefined);
     removeLastThrow();
   }
 
@@ -131,11 +133,17 @@ export function ThrowInput() {
             />
           ))}
         </div>
+
+        {currentThrows.length > 0 && (
+          <div className="mb-3">Sum: {getSumOfCurrentThrows()}</div>
+        )}
+
         {currentThrows.length > 0 && (
           <Button className="me-3" onClick={() => handleRemoveLastThrow()}>
             Revert Last Throw
           </Button>
         )}
+
         <Button
           appearance="primary"
           disabled={currentThrows.length !== 3}

@@ -1,4 +1,7 @@
-import { calculateRemainingPoints } from '../util/calculateRemainingPoints.js';
+import {
+  calculateRemainingPoints,
+  calculateSumOfThrows,
+} from '../util/calculateRemainingPoints.js';
 import { Player } from '../types/player.ts';
 import { Throw } from '../types/throw.ts';
 import { create } from 'zustand';
@@ -23,6 +26,7 @@ interface GameStateActions {
   updateThrowByIdx: (_throw: Throw, idx: number) => void;
   removeLastThrow: () => void;
   submitThrows: () => void;
+  getSumOfCurrentThrows: () => number;
   getWinner: () => Player;
 }
 
@@ -117,6 +121,10 @@ export const useGameState = create(
         state.currentThrows = [];
       });
     },
+
+    getSumOfCurrentThrows: (): number =>
+      calculateSumOfThrows([getState().currentThrows]),
+
     getWinner: (): Player => getWinner(getState().players),
   }))
 );
