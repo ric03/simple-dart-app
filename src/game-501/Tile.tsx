@@ -2,9 +2,14 @@ import { ReactNode } from 'react';
 
 type TileProps = {
   children: ReactNode;
-  className: string;
+  className?: string;
 };
 
 export function Tile({ children, className: additionalClasses }: TileProps) {
-  return <div className={`rounded-3 bg-dark mt-3 p-3 ${additionalClasses}`}>{children}</div>;
+  if (!additionalClasses) additionalClasses = '';
+  return (
+    <div className={`rounded-3 bg-dark mt-3 p-3 ${additionalClasses}`}>
+      {children}
+    </div>
+  );
 }
