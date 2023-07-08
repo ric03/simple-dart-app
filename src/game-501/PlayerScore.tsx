@@ -21,7 +21,7 @@ function PlayerScore({ player }: PlayerScoreProps) {
   const [isEditMode, setEditMode] = useState(false);
   const [newName, setName] = useState(player.name);
 
-  const { removePlayer, updatePlayerName, getCurrentPlayer } = useGameState();
+  const { removePlayer, updatePlayerName, getCurrentPlayer, getSumOfCurrentThrows } = useGameState();
 
   const colorOverrides = useColorOverrides();
 
@@ -86,7 +86,10 @@ function PlayerScore({ player }: PlayerScoreProps) {
         </div>
         <div className="ms-auto">
           <Tooltip content="Remaining Points" relationship="label">
-            <Text weight="bold">{calculateRemainingPoints(player.throws)}</Text>
+            { getCurrentPlayer().id === player.id
+              ? <Text weight="bold">{calculateRemainingPoints(player.throws) - getSumOfCurrentThrows()}</Text>
+              : <Text weight="bold">{calculateRemainingPoints(player.throws)}</Text>
+            }
           </Tooltip>
         </div>
       </div>
